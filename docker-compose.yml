@@ -1,0 +1,40 @@
+# ============================================================================
+# Docker Compose - Manufacturing Intelligence Engine
+# ============================================================================
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: manufacturing-intelligence
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./manufacturing.db
+      - LOG_LEVEL=INFO
+      - PYTHONPATH=/app
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: PostgreSQL for production
+  # db:
+  #   image: postgres:15-alpine
+  #   container_name: mfg-postgres
+  #   environment:
+  #     POSTGRES_DB: manufacturing
+  #     POSTGRES_USER: mfg_user
+  #     POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+
+# volumes:
+#   pgdata:
