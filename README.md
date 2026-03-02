@@ -289,4 +289,4 @@ The synthetic data generator creates 200+ additional batches with physics-based 
 
 ## License
 
-For competition/evaluation purposes only.
+Made for IIT-H Aveva Hackathon 2026 by Team RISE
